@@ -1,3 +1,4 @@
+// -- Información del usuario --
 
 function cargarPub(idPub)
 {
@@ -95,6 +96,8 @@ function getCookie(name)
     }
     return cookieValue;
 }
+
+// -- Gestión de usuarios --
 
 function cargarInformacionUsuario(idUsuario)
 {

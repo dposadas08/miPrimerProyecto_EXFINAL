@@ -3,11 +3,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, JsonResponse, FileResponse
 from django.urls import reverse
-from .models import publicacion, comentario
+from .models import publicacion, comentario, datosUsuario
 import json
 import base64
 from django.contrib.auth.models import User
 
+# -- Ingreso y cierre de sesión del usuario --
 
 def ingresoUsuario(request):
     if request.method == 'POST':
@@ -22,33 +23,17 @@ def ingresoUsuario(request):
     return render(request,'ingresoUsuario.html')
 
 @login_required(login_url='/')
-def informacionUsuario(request):
-    return render(request,'informacionUsuario.html',{
-        'allPubs':publicacion.objects.all()
-    })
-
-
-@login_required(login_url='/')
 def cerrarSesion(request):
     logout(request)
     return render(request,'ingresoUsuario.html')
 
-def ejemploJs(request):
-    return render(request,'ejemploJs.html')
+# -- Información del usuario --
 
-def devolverDatos(request):
-    return JsonResponse(
-        {
-            'nombreCurso':'DesarroloWebPython',
-            'horario':{
-                'martes':'7-10',
-                'jueves':'7-10'
-            },
-            'backend':'django',
-            'frontend':'reactjs',
-            'cantHoras':24
-        }
-    )
+@login_required(login_url='/')
+def informacionUsuario(request):
+    return render(request,'informacionUsuario.html',{
+        'allPubs':publicacion.objects.all()
+    })
 
 def devolverAllPubs(request):
     objPub = publicacion.objects.all()
@@ -127,12 +112,7 @@ def crearPublicacion(request):
         )
 
         return HttpResponseRedirect(reverse('app3:informacionUsuario'))
-    
-def inicioReact(request):
-    return render(request, 'inicioReact.html')
-
-
-
+       
 """
 PREGUNTA 1 - B
 CREAR EL IF QUE PERMITA RECONOCER EL MÉTODO DE LA PETICION:
@@ -187,9 +167,39 @@ datosUsuario.objects.create(
     usrRel=nuevoUsuario
 )
 
-"""
+""" 
+# -- Gestión de usuarios --
+
 @login_required(login_url='/')
 def consolaAdministrador(request):
+    if request.method == 'POST':
+        usernameUsuario = request.POST.get('usernameUsuario')
+        contraUsuario = request.POST.get('contraUsuario')
+        nombreUsuario = request.POST.get('nombreUsuario')
+        apellidoUsuario = request.POST.get('apellidoUsuario')
+        emailUsuario = request.POST.get('emailUsuario')
+        profesionUsuario = request.POST.get('profesionUsuario')
+        nroCelular = request.POST.get('nroCelular')
+        perfilUsuario = request.POST.get('perfilUsuario')
+
+        nuevoUsuario = User.objects.create(
+            username=usernameUsuario,
+            email=emailUsuario
+        )
+        
+        nuevoUsuario.set_password(contraUsuario)
+        nuevoUsuario.first_name = nombreUsuario
+        nuevoUsuario.last_name = apellidoUsuario
+        nuevoUsuario.is_staff = True
+        nuevoUsuario.save()
+
+        datosUsuario.objects.create(
+            profesion = profesionUsuario,
+            nroCelular = nroCelular,
+            perfilUsuario = perfilUsuario,
+            usrRel = nuevoUsuario
+        )
+        
     allUsers = User.objects.all().order_by('id')
     return render(request,'consolaAdministrador.html',{
         'allUsers':allUsers
@@ -221,3 +231,24 @@ def actualizarUsuario(request):
 
     return HttpResponseRedirect(reverse('app4:consolaAdministrador'))
 
+# -- Otros --
+
+def ejemploJs(request):
+    return render(request,'ejemploJs.html')
+
+def devolverDatos(request):
+    return JsonResponse(
+        {
+            'nombreCurso':'DesarroloWebPython',
+            'horario':{
+                'martes':'7-10',
+                'jueves':'7-10'
+            },
+            'backend':'django',
+            'frontend':'reactjs',
+            'cantHoras':24
+        }
+    )    
+    
+def inicioReact(request):
+    return render(request, 'inicioReact.html')
