@@ -165,10 +165,48 @@
                     <h5 class="modal-title">Editar usuario</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div style="display: none;">
-                    <input id="idUsuario" name="idUsuario" value="">
-                </div>
                 <div class="modal-body">
+					<div style="display: none;">
+						<input id="idUsuario" name="idUsuario" value="">
+					</div>				
+                    <div class="row form-group justify-content-around mb-3">
+                        <div class="col-11">
+                            <label>Username :</label>
+                            <input class="form-control" type="text" name="usernameUsuario" readonly>
+                        </div>
+                    </div>
+                    <div class="row form-group justify-content-around mb-3">
+                        <div class="col-5">
+                            <label>Nombre :</label>
+                            <input class="form-control" type="text" name="nombreUsuario" required>
+                        </div>
+                        <div class="col-5">
+                            <label>Apellido :</label>
+                            <input class="form-control" type="text" name="apellidoUsuario" required>
+                        </div>
+                    </div>
+                    <div class="row form-group justify-content-around mb-3">
+                        <div class="col-5">
+                            <label>Profesion :</label>
+                            <input class="form-control" type="text" name="profesionUsuario" required>
+                        </div>
+                        <div class="col-5">
+                            <label>Email :</label>
+                            <input class="form-control" type="email" name="emailUsuario" readonly>
+                        </div>
+                    </div>
+                    <div class="row form-group justify-content-around mb-3">
+                        <div class="col-5">
+                            <label>Nro de celular :</label>
+                            <input class="form-control" type="text" name="nroCelular" required>
+                        </div>
+                    </div>
+                    <div class="row form-group justify-content-around mb-3">
+                        <div class="col-11">
+                            <label>Perfil del usuario :</label>
+                            <textarea class="form-control" type="text" name="perfilUsuario" rows="4" required></textarea>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
