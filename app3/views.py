@@ -247,8 +247,27 @@ def actualizarUsuario(request):
     de la base de datos. Con el objeto capturado modificar los campos respectivos y finalmente
     ejecutar el metodo save() para su respectiva actualizacion
     """
-
-    return HttpResponseRedirect(reverse('app4:consolaAdministrador'))
+    if request.method == 'POST':
+        idUsuario = request.POST.get('idUsuario')
+        nombreUsuario = request.POST.get('nombreUsuario')
+        apellidoUsuario = request.POST.get('apellidoUsuario')
+        profesionUsuario = request.POST.get('profesionUsuario')
+        nroCelular = request.POST.get('nroCelular')
+        perfilUsuario = request.POST.get('perfilUsuario')
+        
+        objUser = User.objects.get(id = idUsuario)
+        objDatosUsuario = datosUsuario.objects.get(usrRel = objUser)
+        
+        objUser.first_name = nombreUsuario
+        objUser.last_name = apellidoUsuario
+        objUser.save()
+        
+        objDatosUsuario.profesion = profesionUsuario
+        objDatosUsuario.nroCelular = nroCelular
+        objDatosUsuario.perfilUsuario = perfilUsuario
+        objDatosUsuario.save()
+   
+        return HttpResponseRedirect(reverse('app3:consolaAdministrador'))
 
 # -- Otros --
 
