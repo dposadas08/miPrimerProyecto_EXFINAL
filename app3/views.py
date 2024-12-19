@@ -205,9 +205,7 @@ def consolaAdministrador(request):
         'allUsers':allUsers
     })
 
-
 def obtenerDatosUsuario(request):
-    idUsuario = request.GET.get('idUsuario')
     """
     Pregunta 3
     Esta funcion devolvera los campos que se necesitan 
@@ -215,9 +213,30 @@ def obtenerDatosUsuario(request):
     Con el id del usuario se puede obtener el objeto y devolver
     el objeto Json con la informacion necesaria.
     """
-    return JsonResponse({
-        'resp':'200'
-    })
+    idUsuario = request.GET.get('idUsuario')
+    try:
+        objUser = User.objects.get(id = idUsuario)
+        objDatosUsuario = datosUsuario.objects.get(usrRel = objUser)
+        return JsonResponse({
+            'username': objUser.username,
+            'nombre': objUser.first_name,
+            'apellido': objUser.last_name,
+            'profesion': objDatosUsuario.profesion,
+            'email': objUser.email,
+            'nroCelular': objDatosUsuario.nroCelular,
+            'perfilUsuario': objDatosUsuario.perfilUsuario
+        })
+    except:
+        return JsonResponse({
+            'username': 'SIN DATOS',
+            'nombre': 'SIN DATOS',
+            'apellido': 'SIN DATOS',
+            'profesion': 'SIN DATOS',
+            'email': 'SIN DATOS',
+            'nroCelular': 'SIN DATOS',
+            'perfilUsuario': 'SIN DATOS'            
+        })    
+
 
 def actualizarUsuario(request):
     """
