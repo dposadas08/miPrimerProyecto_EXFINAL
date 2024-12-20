@@ -14,6 +14,7 @@ urlpatterns = [
     path('publicarComentario',views.publicarComentario,name='publicarComentario'),
     path('crearPublicacion', views.crearPublicacion, name='crearPublicacion'),
     path('inicioReact', views.inicioReact, name='inicioReact'),
+    path('eliminarPublicacion', views.eliminarPublicacion, name='eliminarPublicacion'),
     
     #RUTA CONSOLA ADMINISTRADOR - EXAMEN FINAL
     path('consolaAdministrador',views.consolaAdministrador,name='consolaAdministrador'),

@@ -14,7 +14,7 @@ def ingresoUsuario(request):
     if request.method == 'POST':
         nombreUsuario = request.POST.get('nombreUsuario')
         contraUsuario = request.POST.get('contraUsuario')
-        usrObj = authenticate(request,username=nombreUsuario, password=contraUsuario)
+        usrObj = authenticate(request, username = nombreUsuario, password = contraUsuario)
         if usrObj is not None:
             login(request,usrObj)
             return HttpResponseRedirect(reverse('app3:informacionUsuario'))
@@ -87,7 +87,7 @@ def publicarComentario(request):
     print(datosComentario)
     comentarioTexto = datosComentario.get('comentario')
     idPublicacion = datosComentario.get('idPublicacion')
-    objPublicacion = publicacion.objects.get(id=idPublicacion)
+    objPublicacion = publicacion.objects.get(id = idPublicacion)
     comentario.objects.create(
         descripcion = comentarioTexto,
         pubRel = objPublicacion,
@@ -105,13 +105,23 @@ def crearPublicacion(request):
         imagenPub = request.FILES.get('imagenPub')
 
         publicacion.objects.create(
-            titulo=tituloPub,
-            descripcion=descripcionPub,
+            titulo = tituloPub,
+            descripcion = descripcionPub,
             autorPub = autorPub,
             imagenPub = imagenPub
         )
 
         return HttpResponseRedirect(reverse('app3:informacionUsuario'))
+    
+def eliminarPublicacion(request):
+    if request.method == 'POST':
+        idPublication = request.POST.get('idPublication') 
+        objPublicacion = publicacion.objects.get(id = idPublication) 
+        if objPublicacion.imagenPub is not None:
+            objPublicacion.imagenPub.delete(save = True)
+        objPublicacion.delete()
+        
+        return HttpResponseRedirect(reverse('app3:informacionUsuario'))    
        
 """
 PREGUNTA 1 - B

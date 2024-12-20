@@ -78,6 +78,14 @@ function enviarComentario()
     })
 }
 
+function cargarEliminarPub(idPub)
+{
+    idPublication = document.getElementById('idPublication')
+    idPublication.setAttribute('value', '')
+    idPublication.setAttribute('value', idPub)
+
+}
+
 function getCookie(name)
 {
     let cookieValue = null;

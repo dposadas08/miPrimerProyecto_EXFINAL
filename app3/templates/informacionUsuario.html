@@ -126,7 +126,7 @@
                                 <td>{{ pubInfo.autorPub.first_name }} {{ pubInfo.autorPub.last_name }}</td>
                                 <td>{{ pubInfo.titulo }}</td>
                                 <td><button data-bs-toggle="modal" data-bs-target="#detallePub" id="{{ pubInfo.id }}" onclick="cargarPub(this.id)" class="btn btn-info"><i class="fa-solid fa-eye"></i></button></td>
-                                <td><a class="btn btn-danger" href="#"><i class="fa-solid fa-trash"></i></a></td>
+                                <td><button data-bs-toggle="modal" data-bs-target="#eliminarPub" id="{{ pubInfo.id }}" onclick="cargarEliminarPub(this.id)" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button></td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -247,6 +247,38 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Eliminar Publicacion -->
+<div class="modal fade" id="eliminarPub" tabindex="-1" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form method="post" action="{% url 'app3:eliminarPublicacion' %}">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title">Eliminar Publicación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div style="display: none;">
+						<input id="idPublication" name="idPublication" value="">
+					</div>	
+                    <div class="row justify-content-start">
+                        <div class="col-3 text-center">
+                            <i class="fa-solid fa-triangle-exclamation fa-5x" style="color: #dc3545;"></i>
+                        </div>
+                        <div class="col-9">
+                            <p>¡Esta apunto de eliminar una publicación de forma permanente! ¡Se eliminarán todos comentarios publicados por los usuarios!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
+                    <input type="submit" class="btn btn-danger" value="Eliminar">
+                </div>                
+            </form>
         </div>
     </div>
 </div>
